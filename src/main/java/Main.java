@@ -33,25 +33,25 @@ public class Main {
                     item_name = sc.next();
                     System.out.println("Enter quantity : ");
                     quantity = sc.nextInt();
-                    System.out.println(new Inventory().addItem(item_name, quantity) ? "Item added" : "Item not added");
+                    System.out.println(Inventory.addItem(item_name, quantity) ? "Item added" : "Item not added");
                 }
                 case REMOVE_ITEM -> {
                     System.out.println("Removing item");
                     System.out.println("Enter item name : ");
                     item_name = sc.next();
-                    System.out.println(new Inventory().deleteItem(item_name) + " items removed");
+                    System.out.println(Inventory.deleteItem(item_name) + " items removed");
                 }
                 case IF_EXISTS -> {
                     System.out.println("Checking item exists or not");
                     System.out.println("Enter item name : ");
                     item_name = sc.next();
-                    System.out.println(new Inventory().isExist(item_name) ? "Item exists" : "Item does not exists");
+                    System.out.println(Inventory.isExist(item_name) ? "Item exists" : "Item does not exists");
                 }
                 case CHECK_QUANTITY -> {
                     System.out.println("Checking item quantity");
                     System.out.println("Enter item name : ");
                     item_name = sc.next();
-                    System.out.println("Item available in " + new Inventory().getQuantity(item_name) + " quantity");
+                    System.out.println("Item available in " + Inventory.getQuantity(item_name) + " quantity");
                 }
                 case GAIN_QUANTITY -> {
                     System.out.println("Gaining item quantity");
@@ -59,7 +59,7 @@ public class Main {
                     item_name = sc.next();
                     System.out.println("Enter quantity : ");
                     quantity = sc.nextInt();
-                    new Inventory().gainQuantity(item_name, quantity);
+                    Inventory.gainQuantity(item_name, quantity);
                     System.out.println("Quantity gained");
                 }
                 case REDUCE_QUANTITY -> {
@@ -68,7 +68,7 @@ public class Main {
                     item_name = sc.next();
                     System.out.println("Enter quantity : ");
                     quantity = sc.nextInt();
-                    new Inventory().reduceQuantity(item_name, quantity);
+                    Inventory.reduceQuantity(item_name, quantity);
                     System.out.println("Quantity reduced");
                 }
                 case IS_ITEM_AVAILABLE -> {
@@ -77,7 +77,7 @@ public class Main {
                     item_name = sc.next();
                     System.out.println("Enter quantity : ");
                     quantity = sc.nextInt();
-                    System.out.println(new Inventory().isItemAvailable(item_name, quantity) ?
+                    System.out.println(Inventory.isItemAvailable(item_name, quantity) ?
                             "Item is available in quantity " + quantity : "Item is not available in quantity " + quantity);
                 }
             }

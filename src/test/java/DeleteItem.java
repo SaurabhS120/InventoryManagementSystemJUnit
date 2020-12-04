@@ -5,10 +5,10 @@ import org.junit.Test;
 public class DeleteItem {
     @BeforeClass
     public static void addItem(){
-        new Inventory().addItem("test",5);
+        Inventory.addItem("test",5);
     }
     @Test
     public void deleteItem(){
-        Assert.assertTrue(new Inventory().deleteItem("test")>0);
+        Assert.assertTrue(Inventory.deleteItem("test")>0);
     }
 }

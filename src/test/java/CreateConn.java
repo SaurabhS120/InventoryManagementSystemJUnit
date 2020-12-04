@@ -8,9 +8,9 @@ import java.sql.SQLException;
 public class CreateConn {
     @Test
     public void connectDB(){
-        Connection connection=new Inventory().connect();
-        Assert.assertEquals(connection.getClass(),JDBC4Connection.class);
+        Connection connection=Inventory.connect();
         try {
+        Assert.assertEquals(connection.getClass(),JDBC4Connection.class);
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

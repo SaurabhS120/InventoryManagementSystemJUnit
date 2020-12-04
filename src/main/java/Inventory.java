@@ -1,11 +1,9 @@
-import javax.xml.transform.Result;
 import java.sql.*;
 public class Inventory {
     public static void main(String[] args) {
-        Inventory inventory=new Inventory();
-        inventory.addItem("test",5);
-        System.out.println("is exist test"+inventory.isExist("test"));
-        System.out.println("is exist abc"+inventory.isExist("abc"));
+        Inventory.addItem("test",5);
+        System.out.println("is exist test"+Inventory.isExist("test"));
+        System.out.println("is exist abc"+Inventory.isExist("abc"));
 
     }
     static Connection connect(){
@@ -13,9 +11,8 @@ public class Inventory {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            Connection con=DriverManager.getConnection(
+            return DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/Inventory","root","");
-            return con;
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -23,17 +20,6 @@ public class Inventory {
             throwables.printStackTrace();
         }
         return null;
-
-    }
-    public static void createTableIfNotExists(){
-        Connection connection=connect();
-        try {
-            Statement statement=connection.createStatement();
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS inventory(id INT AUTO_INCREMENT,name VARCHAR(20),quantity INT,PRIMARY KEY(id))");
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
 
     }
     public static boolean addItem(String itemName,int quantity){
