@@ -8,7 +8,7 @@ public class Inventory {
         System.out.println("is exist abc"+inventory.isExist("abc"));
 
     }
-    Connection connect(){
+    static Connection connect(){
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -25,7 +25,7 @@ public class Inventory {
         return null;
 
     }
-    public void createTableIfNotExists(){
+    public static void createTableIfNotExists(){
         Connection connection=connect();
         try {
             Statement statement=connection.createStatement();
@@ -36,7 +36,7 @@ public class Inventory {
         }
 
     }
-    public boolean addItem(String itemName,int quantity){
+    public static boolean addItem(String itemName,int quantity){
         Connection con=connect();
         try {
             PreparedStatement preparedStatement=con.prepareStatement("Insert into inventory (name,quantity)values(?,?)");
@@ -50,7 +50,7 @@ public class Inventory {
         }
         return false;
     }
-    public int deleteItem(String name){
+    public static int deleteItem(String name){
 
         Connection con=connect();
         try {
@@ -64,7 +64,7 @@ public class Inventory {
         }
         return 0;
     }
-    public boolean isExist(String name){
+    public static boolean isExist(String name){
 
         Connection con=connect();
         try {
@@ -81,7 +81,7 @@ public class Inventory {
         }
         return false;
     }
-    public boolean isItemAvailable(String name,int quantity){
+    public static boolean isItemAvailable(String name,int quantity){
         Connection con=connect();
         try {
             PreparedStatement preparedStatement=con.prepareStatement("select quantity from inventory where name=?");
@@ -97,7 +97,7 @@ public class Inventory {
         }
         return false;
     }
-    public int getQuantity(String name){
+    public static int getQuantity(String name){
         Connection connection=connect();
         PreparedStatement preparedStatement= null;
         int result=0;
@@ -115,7 +115,7 @@ public class Inventory {
 
         return result;
     }
-    public void gainQuantity(String itemName,int gain_quantity){
+    public static void gainQuantity(String itemName,int gain_quantity){
 
         Connection con=connect();
         int current_quantity=getQuantity(itemName);
@@ -131,7 +131,7 @@ public class Inventory {
         }
     }
 
-    public void reduceQuantity(String itemName,int reduce_quantity){
+    public static void reduceQuantity(String itemName,int reduce_quantity){
 
         Connection con=connect();
         int current_quantity=getQuantity(itemName);
