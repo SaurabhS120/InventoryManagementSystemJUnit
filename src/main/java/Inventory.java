@@ -1,4 +1,7 @@
 import java.sql.*;
+import java.util.Enumeration;
+import java.util.Vector;
+
 public class Inventory {
     public static void main(String[] args) {
         Inventory.addItem("test",5);
@@ -144,5 +147,22 @@ public class Inventory {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    public static Enumeration<String> getUnavailableItems(){
+        Connection connection=connect();
+        try {
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery("SELECT name from inventory WHERE quantity=0");
+            Vector<String> vector=new Vector();
+            while (resultSet.next()){
+                vector.add(resultSet.getString(1));
+            }
+            Enumeration enumeration=vector.elements();
+            return enumeration;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+
     }
 }

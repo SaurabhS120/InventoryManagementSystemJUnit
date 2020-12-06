@@ -13,7 +13,8 @@ public class TestRunner {
                 CheckQuantity.class,
                 GainQuantity.class,
                 ReduceQuantity.class,
-                RenameItem.class
+                RenameItem.class,
+                GetUnavailableItems.class
         );
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());

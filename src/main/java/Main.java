@@ -1,3 +1,4 @@
+import java.util.Enumeration;
 import java.util.Scanner;
 
 public class Main {
@@ -10,7 +11,8 @@ public class Main {
                     "6.Reduce item quantity\n" +
                     "7.Check item quantity available or not\n" +
                     "8.Rename item\n" +
-                    "9.Exit\n";
+                    "9.Get unavailable items\n" +
+                    "10.Exit\n";
 
     final static int ADD_ITEM = 1;
     final static int REMOVE_ITEM = 2;
@@ -20,7 +22,8 @@ public class Main {
     final static int REDUCE_QUANTITY = 6;
     final static int IS_ITEM_AVAILABLE = 7;
     final static int RENAME_ITEM = 8;
-    final static int EXIT = 9;
+    final static int GET_UNAVAILABLE_ITEMS=9;
+    final static int EXIT = 10;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -91,6 +94,14 @@ public class Main {
                     System.out.println("Enter item new name : ");
                     newName=sc.next();
                     Inventory.renameItem(item_name,newName);
+                    break;
+                case GET_UNAVAILABLE_ITEMS:
+                    System.out.println("Getting unavailable items : ");
+                    Enumeration enumeration=Inventory.getUnavailableItems();
+                    System.out.println("Items");
+                    while (enumeration.hasMoreElements()){
+                        System.out.println(enumeration.nextElement());
+                    }
 
             }
             System.out.println(operations);
