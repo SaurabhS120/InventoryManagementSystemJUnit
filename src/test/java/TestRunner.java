@@ -12,7 +12,8 @@ public class TestRunner {
                 IsItemAvailable.class,
                 CheckQuantity.class,
                 GainQuantity.class,
-                ReduceQuantity.class
+                ReduceQuantity.class,
+                RenameItem.class
         );
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());

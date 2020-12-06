@@ -9,7 +9,8 @@ public class Main {
                     "5.Gain item quantity\n" +
                     "6.Reduce item quantity\n" +
                     "7.Check item quantity available or not\n" +
-                    "8.Exit\n";
+                    "8.Rename item\n" +
+                    "9.Exit\n";
 
     final static int ADD_ITEM = 1;
     final static int REMOVE_ITEM = 2;
@@ -18,7 +19,8 @@ public class Main {
     final static int GAIN_QUANTITY = 5;
     final static int REDUCE_QUANTITY = 6;
     final static int IS_ITEM_AVAILABLE = 7;
-    final static int EXIT = 8;
+    final static int RENAME_ITEM = 8;
+    final static int EXIT = 9;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -26,6 +28,7 @@ public class Main {
         int op = sc.nextInt();
         while (op != EXIT) {
             String item_name;
+            String newName;
             int quantity;
             switch (op) {
                 case ADD_ITEM:
@@ -81,6 +84,14 @@ public class Main {
                     System.out.println(Inventory.isItemAvailable(item_name, quantity) ?
                             "Item is available in quantity " + quantity : "Item is not available in quantity " + quantity);
                     break;
+                case RENAME_ITEM:
+                    System.out.println("Renaming item");
+                    System.out.println("Enter item name : ");
+                    item_name=sc.next();
+                    System.out.println("Enter item new name : ");
+                    newName=sc.next();
+                    Inventory.renameItem(item_name,newName);
+
             }
             System.out.println(operations);
             op = sc.nextInt();

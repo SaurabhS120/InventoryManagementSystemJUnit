@@ -132,5 +132,17 @@ public class Inventory {
             throwables.printStackTrace();
         }
     }
+    public static void renameItem(String itemName,String NewName){
 
+        Connection con=connect();
+        try {
+            PreparedStatement preparedStatement=con.prepareStatement("UPDATE inventory SET name=? where name=?");
+            preparedStatement.setString(1,NewName);
+            preparedStatement.setString(2,itemName);
+            preparedStatement.executeUpdate();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
