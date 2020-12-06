@@ -28,6 +28,6 @@ test{
     useJUnitPlatform()
 }
 sourceSets{
-    main.java.srcDir "src/main"
-    test.java.srcDir "src/test"
+    main.java.srcDir "InventoryManagementSystemJUnit/src/main"
+    test.java.srcDir "InventoryManagementSystemJUnit/src/test"
 }
