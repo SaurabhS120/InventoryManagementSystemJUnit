@@ -12,7 +12,9 @@ public class Main {
                     "7.Check item quantity available or not\n" +
                     "8.Rename item\n" +
                     "9.Get unavailable items\n" +
-                    "10.Exit\n";
+                    "10.Create backup\n" +
+                    "11.Restore backup\n" +
+                    "12.Exit\n";
 
     final static int ADD_ITEM = 1;
     final static int REMOVE_ITEM = 2;
@@ -23,7 +25,9 @@ public class Main {
     final static int IS_ITEM_AVAILABLE = 7;
     final static int RENAME_ITEM = 8;
     final static int GET_UNAVAILABLE_ITEMS=9;
-    final static int EXIT = 10;
+    final static int BACKUP = 10;
+    final static int RESTORE = 11;
+    final static int EXIT = 12;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -102,7 +106,13 @@ public class Main {
                     while (enumeration.hasMoreElements()){
                         System.out.println(enumeration.nextElement());
                     }
-
+                    break;
+                case BACKUP:
+                    BackupRestore.backup();
+                    break;
+                case RESTORE:
+                    BackupRestore.restore();
+                    break;
             }
             System.out.println(operations);
             op = sc.nextInt();

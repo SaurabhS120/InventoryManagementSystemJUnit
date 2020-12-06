@@ -6,11 +6,8 @@ import org.junit.Test;
 import java.util.Enumeration;
 
 public class GetUnavailableItems {
-    String ItemNames[]={"abc","pqr","qnd","akv","pfa","pas"};
-    int Quantities[]={12,0,56,0,98,0};
-    String UnavailableItems[]={"pqr","akv","pas"};
     public boolean expected(String s){
-        for(String i:UnavailableItems){
+        for(String i:TestData.UnavailableItems){
             if(i.equals(s)){
                 return true;
             }
@@ -19,8 +16,8 @@ public class GetUnavailableItems {
     }
     @Before
     public void addItems(){
-        for (int i=0;i<ItemNames.length;i++){
-            Inventory.addItem(ItemNames[i],Quantities[i]);
+        for (int i=0;i<TestData.ItemNames.length;i++){
+            Inventory.addItem(TestData.ItemNames[i],TestData.Quantities[i]);
         }
     }
     @Test
@@ -34,7 +31,7 @@ public class GetUnavailableItems {
     }
     @After
     public void removeItem(){
-        for (String name:ItemNames){
+        for (String name:TestData.ItemNames){
             Inventory.deleteItem(name);
         }
     }
