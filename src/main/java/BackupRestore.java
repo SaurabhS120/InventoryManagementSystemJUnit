@@ -58,6 +58,7 @@ public class BackupRestore {
             }
             fileWriter.flush();
             fileWriter.close();
+            connection.close();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -85,8 +86,8 @@ public class BackupRestore {
                 preparedStatement.setInt(3,item.quantity);
                 preparedStatement.execute();
 
-
             }
+            connection.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException throwables) {

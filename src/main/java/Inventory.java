@@ -158,6 +158,7 @@ public class Inventory {
                 vector.add(resultSet.getString(1));
             }
             Enumeration enumeration=vector.elements();
+            connection.close();
             return enumeration;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

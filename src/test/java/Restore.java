@@ -12,6 +12,7 @@ public class Restore {
         try {
             Statement statement=connection.createStatement();
             statement.executeUpdate("DELETE FROM inventory");
+            connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -25,6 +26,7 @@ public class Restore {
             if(resultSet.next()){
                 return resultSet.getInt(1);
             }
+            connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
