@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,5 +39,9 @@ public class Restore {
         deleteAllData();
         BackupRestore.restore();
         Assert.assertTrue(numberOfItemsInData()>0);
+    }
+    @After
+    public void removeTestData(){
+        TestData.removeData();
     }
 }

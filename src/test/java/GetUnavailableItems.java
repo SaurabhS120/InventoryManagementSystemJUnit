@@ -16,9 +16,7 @@ public class GetUnavailableItems {
     }
     @Before
     public void addItems(){
-        for (int i=0;i<TestData.ItemNames.length;i++){
-            Inventory.addItem(TestData.ItemNames[i],TestData.Quantities[i]);
-        }
+        TestData.addData();
     }
     @Test
     public void gainQuantity(){
@@ -31,9 +29,7 @@ public class GetUnavailableItems {
     }
     @After
     public void removeItem(){
-        for (String name:TestData.ItemNames){
-            Inventory.deleteItem(name);
-        }
+        TestData.removeData();
     }
 
 }
