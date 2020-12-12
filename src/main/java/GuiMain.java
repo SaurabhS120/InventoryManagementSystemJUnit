@@ -1,8 +1,10 @@
 import search.Search;
 import search.SearchDetails;
+import user_interface.ItemDetails;
+import user_interface.ItemOperations;
 
 public class GuiMain {
-    public static void main(String[] args) {
+    public static void start() {
         SearchDetails searchDetails=new SearchDetails();
         Search search=new Search(searchDetails);
         boolean found=false;
@@ -26,8 +28,28 @@ public class GuiMain {
                     e.printStackTrace();
                 }
                 System.out.println("GUI Main : "+searchDetails.getName()+"is found");
+                String name=searchDetails.getName();
+                int quantity=Inventory.getQuantity(name);
+                ItemDetails itemDetails=new ItemDetails(name,quantity);
+                new ItemOperations(itemDetails);
+                synchronized (itemDetails){
+                    while (itemDetails.getOperation()!=ItemDetails.BACK){
+                        try {
+                            itemDetails.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (itemDetails.getOperation()==ItemDetails.BACK){
+                        start();
+                    }
+                }
             }
         }
+    }
 
+    public static void main(String[] args) {
+        start();
     }
 }

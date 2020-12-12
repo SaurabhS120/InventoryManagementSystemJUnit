@@ -19,6 +19,7 @@ public class Search extends JFrame {
         setSize(400,300);
         panel=new JPanel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         add(panel);
         panel.add(new JLabel("Product name"));
         nameTextField=new JTextField();
