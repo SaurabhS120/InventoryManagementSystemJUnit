@@ -5,6 +5,8 @@ public class SearchDetails {
     public static final int SEARCHING=1;
     public static final int FOUND=2;
     public static final int CLOSED=3;
+    public static final int ADD=4;
+
 
     String name;
 

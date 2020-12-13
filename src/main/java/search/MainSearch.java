@@ -7,13 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Search extends JFrame {
+public class MainSearch extends JFrame {
     SearchDetails searchDetails;
     JFrame frame;
     JPanel panel;
     JTextField nameTextField;
     JButton searchButton;
-    public Search(SearchDetails searchDetails){
+    JButton addButton;
+    public MainSearch(SearchDetails searchDetails){
         super("Search record");
         frame=this;
         setSize(400,300);
@@ -28,6 +29,9 @@ public class Search extends JFrame {
         searchButton=new JButton("Search");
         searchButton.setMaximumSize(new Dimension(350,30));
         panel.add(searchButton);
+        addButton=new JButton("Add");
+        addButton.setMaximumSize(new Dimension(350,30));
+        panel.add(addButton);
         searchDetails.setState(SearchDetails.SEARCHING);
         searchButton.addActionListener(new AbstractAction() {
             @Override
@@ -55,7 +59,17 @@ public class Search extends JFrame {
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
                 synchronized (searchDetails) {
-                    if(searchDetails.getState()!=SearchDetails.FOUND)searchDetails.setState(SearchDetails.CLOSED);
+                    if(searchDetails.getState()==SearchDetails.SEARCHING)
+                        searchDetails.setState(SearchDetails.CLOSED);
+                    searchDetails.notify();
+                }
+            }
+        });
+        addButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (searchDetails){
+                    searchDetails.setState(SearchDetails.ADD);
                     searchDetails.notify();
                 }
             }

@@ -1,4 +1,4 @@
-import user_interface.ItemDetails;
+import basic_operations.ItemDetails;
 public class ItemRecord extends ItemDetails{
     public ItemRecord(ItemDetails itemDetails) {
         super(itemDetails);

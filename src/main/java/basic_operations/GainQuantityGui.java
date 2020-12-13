@@ -1,4 +1,4 @@
-package user_interface;
+package basic_operations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 public class GainQuantityGui extends JFrame {
 
     ItemDetails itemDetails;
-    Messege messege;
     JPanel panel;
     JLabel itemNameLabel;
     JLabel quantityLabel;
@@ -17,8 +16,7 @@ public class GainQuantityGui extends JFrame {
     JButton backButton;
     JButton gainQuantityButton;
     JTextField quantityTextField;
-    public GainQuantityGui(ItemDetails itemDetails,Messege messege){
-        this.messege=messege;
+    public GainQuantityGui(ItemDetails itemDetails){
         this.itemDetails=itemDetails;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
@@ -59,14 +57,9 @@ public class GainQuantityGui extends JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
-
                 synchronized (itemDetails){
                     itemDetails.notify();
                 }
-                synchronized (messege){
-                    messege.notify();
-                }
-                dispose();
             }
         });
         gainQuantityButton.addActionListener(new AbstractAction() {

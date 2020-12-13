@@ -1,4 +1,4 @@
-package user_interface;
+package basic_operations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ItemOperations extends JFrame {
-    JFrame frame;
+    ItemOperations frame;
     ItemDetails itemDetails;
     Messege messege;
     UpdateMsg updateMsg;
@@ -20,11 +20,12 @@ public class ItemOperations extends JFrame {
     JButton renameButton;
     JButton removeButton;
     JButton backButton;
-    public ItemOperations(ItemDetails itemDetails,UpdateMsg updateMsg1){
+
+    public ItemOperations(ItemDetails itemDetails,UpdateMsg updateMsg){
         frame=this;
         this.itemDetails=itemDetails;
         messege=new Messege();
-        updateMsg=updateMsg1;
+        this.updateMsg=updateMsg;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
         panel=new JPanel();
@@ -78,38 +79,38 @@ public class ItemOperations extends JFrame {
         gainQuantityButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GainQuantityGui gainQuantityGui = new GainQuantityGui(itemDetails, messege);
+                new GainQuantityGui(itemDetails);
                 frame.setEnabled(false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        synchronized (messege) {
-                            try {
-                                messege.wait();
-                            } catch (InterruptedException interruptedException) {
-                                interruptedException.printStackTrace();
-                            }
-                        }
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                synchronized (updateMsg){
-                                    try {
-                                        updateMsg.wait();
-                                        quantityLabel.setText(String.valueOf(updateMsg.q));
-                                        itemDetails.quantity=updateMsg.q;
-                                    } catch (InterruptedException interruptedException) {
-                                        interruptedException.printStackTrace();
-                                    }
-                                }
-                                frame.setEnabled(true);
-                                frame.setVisible(true);
-                            }
-                        }).start();
-                    }
-                }).start();
+                new UpdateThread(updateMsg,frame).start();
             }
         });
+        reduceQuantityButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ReduceQuantityGui(itemDetails);
+                frame.setEnabled(false);
+                new UpdateThread(updateMsg,frame).start();
+            }
+        });
+        renameButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RenameItemGui(itemDetails);
+                frame.setEnabled(false);
+                new UpdateThread(updateMsg,frame).start();
+            }
+        });
+        removeButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (itemDetails){
+                    itemDetails.setOperation(ItemDetails.REMOVE);
+                    itemDetails.notify();
+                    dispose();
+                }
+            }
+        });
+
 
     }
 

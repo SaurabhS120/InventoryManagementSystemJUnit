@@ -1,4 +1,4 @@
-package user_interface;
+package basic_operations;
 
 public class ItemDetails {
     public static final int NONE=0;
@@ -7,11 +7,16 @@ public class ItemDetails {
     public static final int RENAME=3;
     public static final int REMOVE=4;
     public static final int BACK=5;
+    public static final int ADD=6;
     int operation;
     public String name;
     public int quantity;
     String tempName;
     int tempQuantity;
+
+    public ItemDetails() {
+    }
+
     public ItemDetails(String name, int quantity) {
         this.name = name;
         this.quantity = quantity;
