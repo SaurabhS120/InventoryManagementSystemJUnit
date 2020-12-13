@@ -3,9 +3,14 @@ package user_interface;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ItemOperations extends JFrame {
+    JFrame frame;
     ItemDetails itemDetails;
+    Messege messege;
+    UpdateMsg updateMsg;
     JPanel panel;
     JLabel itemNameLabel;
     JLabel quantityLabel;
@@ -15,10 +20,13 @@ public class ItemOperations extends JFrame {
     JButton renameButton;
     JButton removeButton;
     JButton backButton;
-    public ItemOperations(ItemDetails itemDetails){
+    public ItemOperations(ItemDetails itemDetails,UpdateMsg updateMsg1){
+        frame=this;
         this.itemDetails=itemDetails;
-        itemNameLabel=new JLabel(itemDetails.name);
-        quantityLabel=new JLabel(String.valueOf(itemDetails.quantity));
+        messege=new Messege();
+        updateMsg=updateMsg1;
+        itemNameLabel=new JLabel(this.itemDetails.name);
+        quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
         panel=new JPanel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
         buttonsPanel=new JPanel();
@@ -52,11 +60,54 @@ public class ItemOperations extends JFrame {
         backButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                super.windowClosed(e);
+
                 synchronized (itemDetails){
                     itemDetails.setOperation(ItemDetails.BACK);
                     itemDetails.notify();
                     dispose();
                 }
+            }
+        });
+        gainQuantityButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GainQuantityGui gainQuantityGui = new GainQuantityGui(itemDetails, messege);
+                frame.setEnabled(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        synchronized (messege) {
+                            try {
+                                messege.wait();
+                            } catch (InterruptedException interruptedException) {
+                                interruptedException.printStackTrace();
+                            }
+                        }
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                synchronized (updateMsg){
+                                    try {
+                                        updateMsg.wait();
+                                        quantityLabel.setText(String.valueOf(updateMsg.q));
+                                        itemDetails.quantity=updateMsg.q;
+                                    } catch (InterruptedException interruptedException) {
+                                        interruptedException.printStackTrace();
+                                    }
+                                }
+                                frame.setEnabled(true);
+                                frame.setVisible(true);
+                            }
+                        }).start();
+                    }
+                }).start();
             }
         });
 

@@ -2,9 +2,10 @@ import search.Search;
 import search.SearchDetails;
 import user_interface.ItemDetails;
 import user_interface.ItemOperations;
+import user_interface.UpdateMsg;
 
 public class GuiMain {
-    public static void start() {
+    public static boolean start() {
         SearchDetails searchDetails=new SearchDetails();
         Search search=new Search(searchDetails);
         boolean found=false;
@@ -29,27 +30,40 @@ public class GuiMain {
                 }
                 System.out.println("GUI Main : "+searchDetails.getName()+"is found");
                 String name=searchDetails.getName();
-                int quantity=Inventory.getQuantity(name);
-                ItemDetails itemDetails=new ItemDetails(name,quantity);
-                new ItemOperations(itemDetails);
-                synchronized (itemDetails){
-                    while (itemDetails.getOperation()!=ItemDetails.BACK){
-                        try {
-                            itemDetails.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                showDetails(name);
+                return true;
 
-                    if (itemDetails.getOperation()==ItemDetails.BACK){
-                        start();
+            }
+        }
+        return false;
+    }
+    public static void showDetails(String name){
+
+        int quantity=Inventory.getQuantity(name);
+        ItemDetails itemDetails=new ItemDetails(name,quantity);
+        UpdateMsg updateMsg=new UpdateMsg();
+        new ItemOperations(itemDetails,updateMsg);
+        ItemRecord itemRecord=new ItemRecord(itemDetails);
+        synchronized (itemDetails){
+            while (itemDetails.getOperation()!=ItemDetails.BACK){
+                try {
+                    itemDetails.wait();
+                    switch (itemDetails.getOperation()){
+                        case ItemDetails.GAIN_QUANTITY:
+                            itemRecord.gainQuantity(itemDetails.getTempQuantity());
+                            synchronized (updateMsg){
+                                updateMsg.q=Inventory.getQuantity(name);
+                                updateMsg.notify();
+                            }
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
     }
 
     public static void main(String[] args) {
-        start();
+        while (start());
     }
 }
