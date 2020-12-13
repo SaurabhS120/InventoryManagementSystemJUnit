@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 public class ItemOperations extends JFrame {
     ItemOperations frame;
     ItemDetails itemDetails;
-    Messege messege;
     UpdateMsg updateMsg;
     JPanel panel;
     JLabel itemNameLabel;
@@ -24,7 +23,6 @@ public class ItemOperations extends JFrame {
     public ItemOperations(ItemDetails itemDetails,UpdateMsg updateMsg){
         frame=this;
         this.itemDetails=itemDetails;
-        messege=new Messege();
         this.updateMsg=updateMsg;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
@@ -103,10 +101,12 @@ public class ItemOperations extends JFrame {
         removeButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                synchronized (itemDetails){
-                    itemDetails.setOperation(ItemDetails.REMOVE);
-                    itemDetails.notify();
-                    dispose();
+                if(JOptionPane.showConfirmDialog(frame,"Do you want to remove this item?")==JOptionPane.OK_OPTION) {
+                    synchronized (itemDetails) {
+                        itemDetails.setOperation(ItemDetails.REMOVE);
+                        itemDetails.notify();
+                        dispose();
+                    }
                 }
             }
         });

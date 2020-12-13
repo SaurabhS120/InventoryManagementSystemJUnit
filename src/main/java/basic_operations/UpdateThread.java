@@ -13,7 +13,6 @@ class UpdateThread extends Thread{
             synchronized (updateMsg){
                 try {
                     updateMsg.wait();
-                    System.out.println("updating....");
                     if(updateMsg.isNameUpdated){
                         frame.itemDetails.name=updateMsg.name;
                         frame.itemNameLabel.setText(frame.itemDetails.name);

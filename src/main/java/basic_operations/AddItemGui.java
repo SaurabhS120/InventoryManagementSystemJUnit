@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class AddItemGui extends JFrame {
-
+    JFrame frame;
     ItemDetails itemDetails;
     JPanel panel;
     JPanel buttonsPanel;
@@ -17,6 +17,7 @@ public class AddItemGui extends JFrame {
     JTextField quantityTextField;
     public AddItemGui(ItemDetails itemDetails){
         this.itemDetails=itemDetails;
+        frame=this;
         panel=new JPanel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
         buttonsPanel=new JPanel();
@@ -64,12 +65,16 @@ public class AddItemGui extends JFrame {
         addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                synchronized (itemDetails){
-                    itemDetails.name=nameTextField.getText();
-                    itemDetails.quantity=Integer.parseInt(quantityTextField.getText());
-                    itemDetails.setOperation(ItemDetails.ADD);
+                if(JOptionPane.showConfirmDialog(frame,"Want to add this item?")==JOptionPane.OK_OPTION) {
+
+                    synchronized (itemDetails) {
+                        itemDetails.name = nameTextField.getText();
+                        itemDetails.quantity = Integer.parseInt(quantityTextField.getText());
+                        itemDetails.setOperation(ItemDetails.ADD);
+
+                    }
+                    dispose();
                 }
-                dispose();
             }
         });
 

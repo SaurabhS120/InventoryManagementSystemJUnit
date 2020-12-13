@@ -23,8 +23,9 @@ public class GuiMain {
                             itemDetails.wait();
                             if(itemDetails.getOperation()==ItemDetails.ADD){
                                 new ItemRecord(itemDetails).add();
-                                searchDetails.setState(SearchDetails.SEARCHING);
+
                             }
+                            searchDetails.setState(SearchDetails.SEARCHING);
                         }
                         search.setEnabled(true);
                         search.setVisible(true);

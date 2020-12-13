@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class RenameItemGui extends JFrame {
-
+    JFrame frame;
     ItemDetails itemDetails;
     JPanel panel;
     JLabel itemNameLabel;
@@ -18,6 +18,7 @@ public class RenameItemGui extends JFrame {
     JTextField nameTextField;
     public RenameItemGui(ItemDetails itemDetails){
         this.itemDetails=itemDetails;
+        frame=this;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
         panel=new JPanel();
@@ -65,11 +66,13 @@ public class RenameItemGui extends JFrame {
         renameButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                synchronized (itemDetails){
-                    itemDetails.setTempName(nameTextField.getText());
-                    itemDetails.setOperation(ItemDetails.RENAME);
+                if(JOptionPane.showConfirmDialog(frame,"Do you want to rename this item?")==JOptionPane.OK_OPTION) {
+                    synchronized (itemDetails) {
+                        itemDetails.setTempName(nameTextField.getText());
+                        itemDetails.setOperation(ItemDetails.RENAME);
+                    }
+                    dispose();
                 }
-                dispose();
             }
         });
 
