@@ -1,3 +1,5 @@
+package database;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -35,7 +37,7 @@ class Item{
 
 }
 public class BackupRestore {
-    final static String BACKUP_FILE_NAME="Inventory_backup.csv";
+    public final static String BACKUP_FILE_NAME="Inventory_backup.csv";
     public static void backup(){
         Connection connection=Inventory.connect();
         try {
@@ -80,7 +82,10 @@ public class BackupRestore {
             Connection connection=Inventory.connect();
             while (itemEnumeration.hasMoreElements()){
                 Item item=itemEnumeration.nextElement();
-                PreparedStatement preparedStatement=connection.prepareStatement("INSERT INTO inventory values(?,?,?)");
+                PreparedStatement preparedStatement=connection.prepareStatement("DELETE FROM inventory WHERE id=?");
+                preparedStatement.setInt(1,item.id);
+                preparedStatement.execute();
+                preparedStatement=connection.prepareStatement("INSERT INTO inventory values(?,?,?)");
                 preparedStatement.setInt(1,item.id);
                 preparedStatement.setString(2,item.name);
                 preparedStatement.setInt(3,item.quantity);

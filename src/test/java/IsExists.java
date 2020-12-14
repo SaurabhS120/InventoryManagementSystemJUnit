@@ -1,3 +1,4 @@
+import database.Inventory;
 import org.junit.Test;
 
 public class IsExists {

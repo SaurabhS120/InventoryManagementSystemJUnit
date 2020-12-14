@@ -1,4 +1,4 @@
-package basic_operations;
+package user_interface.basic_operations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,18 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class ReduceQuantityGui extends JFrame {
-
+public class RenameItemGui extends JFrame {
+    JFrame frame;
     ItemDetails itemDetails;
     JPanel panel;
     JLabel itemNameLabel;
     JLabel quantityLabel;
     JPanel buttonsPanel;
     JButton backButton;
-    JButton reduceQuantityButton;
-    JTextField quantityTextField;
-    public ReduceQuantityGui(ItemDetails itemDetails){
+    JButton renameButton;
+    JTextField nameTextField;
+    public RenameItemGui(ItemDetails itemDetails){
         this.itemDetails=itemDetails;
+        frame=this;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
         panel=new JPanel();
@@ -25,19 +26,19 @@ public class ReduceQuantityGui extends JFrame {
         buttonsPanel=new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel,BoxLayout.PAGE_AXIS));
         Dimension buttonDimension=new Dimension(800,30);
-        quantityTextField=new JTextField();
-        quantityTextField.setMaximumSize(buttonDimension);
+        nameTextField=new JTextField();
+        nameTextField.setMaximumSize(buttonDimension);
         backButton=new JButton("Beck");
-        reduceQuantityButton=new JButton("Reduce quantity");
-        reduceQuantityButton.setMaximumSize(buttonDimension);
+        renameButton=new JButton("Rename item");
+        renameButton.setMaximumSize(buttonDimension);
         backButton.setMaximumSize(buttonDimension);
         panel.add(new JLabel("Produce name : "));
         panel.add(itemNameLabel);
         panel.add(new JLabel("Quantity : "));
         panel.add(quantityLabel);
-        buttonsPanel.add(new JLabel("Enter quantity to reduce : "));
-        buttonsPanel.add(quantityTextField);
-        buttonsPanel.add(reduceQuantityButton);
+        buttonsPanel.add(new JLabel("Enter new name : "));
+        buttonsPanel.add(nameTextField);
+        buttonsPanel.add(renameButton);
         buttonsPanel.add(backButton);
         panel.add(buttonsPanel);
         add(panel);
@@ -62,14 +63,16 @@ public class ReduceQuantityGui extends JFrame {
                 }
             }
         });
-        reduceQuantityButton.addActionListener(new AbstractAction() {
+        renameButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                synchronized (itemDetails){
-                    itemDetails.setTempQuantity(Integer.parseInt(quantityTextField.getText()));
-                    itemDetails.setOperation(ItemDetails.REDUCE_QUANTITY);
+                if(JOptionPane.showConfirmDialog(frame,"Do you want to rename this item?")==JOptionPane.OK_OPTION) {
+                    synchronized (itemDetails) {
+                        itemDetails.setTempName(nameTextField.getText());
+                        itemDetails.setOperation(ItemDetails.RENAME);
+                    }
+                    dispose();
                 }
-                dispose();
             }
         });
 

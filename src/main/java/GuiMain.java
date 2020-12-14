@@ -1,9 +1,14 @@
-import basic_operations.AddItemGui;
-import search.MainSearch;
-import search.SearchDetails;
-import basic_operations.ItemDetails;
-import basic_operations.ItemOperations;
-import basic_operations.UpdateMsg;
+import user_interface.basic_operations.AddItemGui;
+import database.Inventory;
+import database.ItemRecord;
+import user_interface.search.MainSearch;
+import user_interface.search.SearchDetails;
+import user_interface.basic_operations.ItemDetails;
+import user_interface.basic_operations.ItemOperations;
+import user_interface.basic_operations.UpdateMsg;
+import database.*;
+
+import javax.swing.*;
 
 public class GuiMain {
     public static boolean start() {
@@ -23,12 +28,25 @@ public class GuiMain {
                             itemDetails.wait();
                             if(itemDetails.getOperation()==ItemDetails.ADD){
                                 new ItemRecord(itemDetails).add();
-
                             }
                             searchDetails.setState(SearchDetails.SEARCHING);
                         }
                         search.setEnabled(true);
                         search.setVisible(true);
+                    }
+                    if(searchDetails.getState()==SearchDetails.BACKUP){
+                        BackupRestore.backup();
+                        JOptionPane.showMessageDialog(search,"Backup Successful","Backup",JOptionPane.INFORMATION_MESSAGE);
+                        searchDetails.setState(SearchDetails.SEARCHING);
+                    }
+                    if(searchDetails.getState()==SearchDetails.RESTORE){
+                        try {
+                            BackupRestore.restore();
+                            JOptionPane.showMessageDialog(search, "Restore Successful", "Restore", JOptionPane.INFORMATION_MESSAGE);
+                            searchDetails.setState(SearchDetails.SEARCHING);
+                        }catch (Exception exception){
+                            exception.printStackTrace();
+                        }
                     }
                     if (searchDetails.getState() == SearchDetails.CLOSED) break;
                     found = Inventory.isExist(searchDetails.getName());

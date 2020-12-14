@@ -1,4 +1,4 @@
-package search;
+package user_interface.search;
 
 public class SearchDetails {
     int state=0;
@@ -6,7 +6,8 @@ public class SearchDetails {
     public static final int FOUND=2;
     public static final int CLOSED=3;
     public static final int ADD=4;
-
+    public static final int BACKUP=5;
+    public static final int RESTORE=6;
 
     String name;
 

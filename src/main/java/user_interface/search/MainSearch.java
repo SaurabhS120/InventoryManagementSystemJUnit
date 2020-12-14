@@ -1,4 +1,4 @@
-package search;
+package user_interface.search;
 
 
 import javax.swing.*;
@@ -14,6 +14,8 @@ public class MainSearch extends JFrame {
     JTextField nameTextField;
     JButton searchButton;
     JButton addButton;
+    JButton backupButton;
+    JButton restoreButton;
     public MainSearch(SearchDetails searchDetails){
         super("Search record");
         frame=this;
@@ -32,6 +34,12 @@ public class MainSearch extends JFrame {
         addButton=new JButton("Add");
         addButton.setMaximumSize(new Dimension(350,30));
         panel.add(addButton);
+        backupButton=new JButton("Backup");
+        backupButton.setMaximumSize(new Dimension(350,30));
+        panel.add(backupButton);
+        restoreButton=new JButton("Restore");
+        restoreButton.setMaximumSize(new Dimension(350,30));
+        panel.add(restoreButton);
         searchDetails.setState(SearchDetails.SEARCHING);
         searchButton.addActionListener(new AbstractAction() {
             @Override
@@ -70,6 +78,24 @@ public class MainSearch extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 synchronized (searchDetails){
                     searchDetails.setState(SearchDetails.ADD);
+                    searchDetails.notify();
+                }
+            }
+        });
+        backupButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (searchDetails){
+                    searchDetails.setState(SearchDetails.BACKUP);
+                    searchDetails.notify();
+                }
+            }
+        });
+        restoreButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (searchDetails){
+                    searchDetails.setState(SearchDetails.RESTORE);
                     searchDetails.notify();
                 }
             }

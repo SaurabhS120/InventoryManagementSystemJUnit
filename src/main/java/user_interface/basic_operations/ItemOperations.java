@@ -1,4 +1,4 @@
-package basic_operations;
+package user_interface.basic_operations;
 
 import javax.swing.*;
 import java.awt.*;

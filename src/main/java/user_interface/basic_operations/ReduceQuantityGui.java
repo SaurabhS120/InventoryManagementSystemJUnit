@@ -1,4 +1,4 @@
-package basic_operations;
+package user_interface.basic_operations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GainQuantityGui extends JFrame {
+public class ReduceQuantityGui extends JFrame {
 
     ItemDetails itemDetails;
     JPanel panel;
@@ -14,9 +14,9 @@ public class GainQuantityGui extends JFrame {
     JLabel quantityLabel;
     JPanel buttonsPanel;
     JButton backButton;
-    JButton gainQuantityButton;
+    JButton reduceQuantityButton;
     JTextField quantityTextField;
-    public GainQuantityGui(ItemDetails itemDetails){
+    public ReduceQuantityGui(ItemDetails itemDetails){
         this.itemDetails=itemDetails;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
@@ -28,16 +28,16 @@ public class GainQuantityGui extends JFrame {
         quantityTextField=new JTextField();
         quantityTextField.setMaximumSize(buttonDimension);
         backButton=new JButton("Beck");
-        gainQuantityButton=new JButton("Gain quantity");
-        gainQuantityButton.setMaximumSize(buttonDimension);
+        reduceQuantityButton=new JButton("Reduce quantity");
+        reduceQuantityButton.setMaximumSize(buttonDimension);
         backButton.setMaximumSize(buttonDimension);
         panel.add(new JLabel("Produce name : "));
         panel.add(itemNameLabel);
         panel.add(new JLabel("Quantity : "));
         panel.add(quantityLabel);
-        buttonsPanel.add(new JLabel("Enter quantity to gain : "));
+        buttonsPanel.add(new JLabel("Enter quantity to reduce : "));
         buttonsPanel.add(quantityTextField);
-        buttonsPanel.add(gainQuantityButton);
+        buttonsPanel.add(reduceQuantityButton);
         buttonsPanel.add(backButton);
         panel.add(buttonsPanel);
         add(panel);
@@ -62,12 +62,12 @@ public class GainQuantityGui extends JFrame {
                 }
             }
         });
-        gainQuantityButton.addActionListener(new AbstractAction() {
+        reduceQuantityButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (itemDetails){
                     itemDetails.setTempQuantity(Integer.parseInt(quantityTextField.getText()));
-                    itemDetails.setOperation(ItemDetails.GAIN_QUANTITY);
+                    itemDetails.setOperation(ItemDetails.REDUCE_QUANTITY);
                 }
                 dispose();
             }

@@ -1,3 +1,5 @@
+import database.BackupRestore;
+import database.Inventory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,7 +11,7 @@ import java.sql.Statement;
 
 public class Restore {
     static void deleteAllData(){
-        Connection connection=Inventory.connect();
+        Connection connection= Inventory.connect();
         try {
             Statement statement=connection.createStatement();
             statement.executeUpdate("DELETE FROM inventory");

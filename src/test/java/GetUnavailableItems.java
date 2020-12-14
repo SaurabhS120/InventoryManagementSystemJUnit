@@ -1,3 +1,4 @@
+import database.Inventory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,7 +21,7 @@ public class GetUnavailableItems {
     }
     @Test
     public void gainQuantity(){
-        Enumeration<String> enumeration=Inventory.getUnavailableItems();
+        Enumeration<String> enumeration= Inventory.getUnavailableItems();
         while (enumeration.hasMoreElements()){
             String s=enumeration.nextElement();
             Assert.assertTrue(expected(s));

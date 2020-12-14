@@ -1,4 +1,6 @@
-import basic_operations.ItemDetails;
+package database;
+
+import user_interface.basic_operations.ItemDetails;
 public class ItemRecord extends ItemDetails{
     public ItemRecord(ItemDetails itemDetails) {
         super(itemDetails);

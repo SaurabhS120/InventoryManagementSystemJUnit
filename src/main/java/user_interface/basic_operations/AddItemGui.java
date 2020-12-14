@@ -1,4 +1,4 @@
-package basic_operations;
+package user_interface.basic_operations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,21 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class RenameItemGui extends JFrame {
+public class AddItemGui extends JFrame {
     JFrame frame;
     ItemDetails itemDetails;
     JPanel panel;
-    JLabel itemNameLabel;
-    JLabel quantityLabel;
     JPanel buttonsPanel;
     JButton backButton;
-    JButton renameButton;
+    JButton addButton;
     JTextField nameTextField;
-    public RenameItemGui(ItemDetails itemDetails){
+    JTextField quantityTextField;
+    public AddItemGui(ItemDetails itemDetails){
         this.itemDetails=itemDetails;
         frame=this;
-        itemNameLabel=new JLabel(this.itemDetails.name);
-        quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
         panel=new JPanel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
         buttonsPanel=new JPanel();
@@ -28,17 +25,17 @@ public class RenameItemGui extends JFrame {
         Dimension buttonDimension=new Dimension(800,30);
         nameTextField=new JTextField();
         nameTextField.setMaximumSize(buttonDimension);
+        quantityTextField=new JTextField();
+        quantityTextField.setMaximumSize(buttonDimension);
         backButton=new JButton("Beck");
-        renameButton=new JButton("Rename item");
-        renameButton.setMaximumSize(buttonDimension);
+        addButton=new JButton("Add item");
+        addButton.setMaximumSize(buttonDimension);
         backButton.setMaximumSize(buttonDimension);
-        panel.add(new JLabel("Produce name : "));
-        panel.add(itemNameLabel);
-        panel.add(new JLabel("Quantity : "));
-        panel.add(quantityLabel);
-        buttonsPanel.add(new JLabel("Enter new name : "));
+        buttonsPanel.add(new JLabel("Enter name : "));
         buttonsPanel.add(nameTextField);
-        buttonsPanel.add(renameButton);
+        buttonsPanel.add(new JLabel("Enter quantity : "));
+        buttonsPanel.add(quantityTextField);
+        buttonsPanel.add(addButton);
         buttonsPanel.add(backButton);
         panel.add(buttonsPanel);
         add(panel);
@@ -51,6 +48,7 @@ public class RenameItemGui extends JFrame {
         backButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                itemDetails.setOperation(ItemDetails.NONE);
                 dispose();
             }
         });
@@ -59,17 +57,21 @@ public class RenameItemGui extends JFrame {
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
                 synchronized (itemDetails){
+
                     itemDetails.notify();
                 }
             }
         });
-        renameButton.addActionListener(new AbstractAction() {
+        addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(frame,"Do you want to rename this item?")==JOptionPane.OK_OPTION) {
+                if(JOptionPane.showConfirmDialog(frame,"Want to add this item?")==JOptionPane.OK_OPTION) {
+
                     synchronized (itemDetails) {
-                        itemDetails.setTempName(nameTextField.getText());
-                        itemDetails.setOperation(ItemDetails.RENAME);
+                        itemDetails.name = nameTextField.getText();
+                        itemDetails.quantity = Integer.parseInt(quantityTextField.getText());
+                        itemDetails.setOperation(ItemDetails.ADD);
+
                     }
                     dispose();
                 }

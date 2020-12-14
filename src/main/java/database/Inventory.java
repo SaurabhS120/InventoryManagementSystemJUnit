@@ -1,3 +1,5 @@
+package database;
+
 import java.sql.*;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -9,7 +11,7 @@ public class Inventory {
         System.out.println("is exist abc"+Inventory.isExist("abc"));
 
     }
-    static Connection connect(){
+    public static Connection connect(){
 
         try {
             Class.forName("com.mysql.jdbc.Driver");

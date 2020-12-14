@@ -1,4 +1,4 @@
-package basic_operations;
+package user_interface.basic_operations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,36 +6,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class AddItemGui extends JFrame {
-    JFrame frame;
+public class GainQuantityGui extends JFrame {
+
     ItemDetails itemDetails;
     JPanel panel;
+    JLabel itemNameLabel;
+    JLabel quantityLabel;
     JPanel buttonsPanel;
     JButton backButton;
-    JButton addButton;
-    JTextField nameTextField;
+    JButton gainQuantityButton;
     JTextField quantityTextField;
-    public AddItemGui(ItemDetails itemDetails){
+    public GainQuantityGui(ItemDetails itemDetails){
         this.itemDetails=itemDetails;
-        frame=this;
+        itemNameLabel=new JLabel(this.itemDetails.name);
+        quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));
         panel=new JPanel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
         buttonsPanel=new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel,BoxLayout.PAGE_AXIS));
         Dimension buttonDimension=new Dimension(800,30);
-        nameTextField=new JTextField();
-        nameTextField.setMaximumSize(buttonDimension);
         quantityTextField=new JTextField();
         quantityTextField.setMaximumSize(buttonDimension);
         backButton=new JButton("Beck");
-        addButton=new JButton("Add item");
-        addButton.setMaximumSize(buttonDimension);
+        gainQuantityButton=new JButton("Gain quantity");
+        gainQuantityButton.setMaximumSize(buttonDimension);
         backButton.setMaximumSize(buttonDimension);
-        buttonsPanel.add(new JLabel("Enter name : "));
-        buttonsPanel.add(nameTextField);
-        buttonsPanel.add(new JLabel("Enter quantity : "));
+        panel.add(new JLabel("Produce name : "));
+        panel.add(itemNameLabel);
+        panel.add(new JLabel("Quantity : "));
+        panel.add(quantityLabel);
+        buttonsPanel.add(new JLabel("Enter quantity to gain : "));
         buttonsPanel.add(quantityTextField);
-        buttonsPanel.add(addButton);
+        buttonsPanel.add(gainQuantityButton);
         buttonsPanel.add(backButton);
         panel.add(buttonsPanel);
         add(panel);
@@ -48,7 +50,6 @@ public class AddItemGui extends JFrame {
         backButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                itemDetails.setOperation(ItemDetails.NONE);
                 dispose();
             }
         });
@@ -57,24 +58,18 @@ public class AddItemGui extends JFrame {
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
                 synchronized (itemDetails){
-
                     itemDetails.notify();
                 }
             }
         });
-        addButton.addActionListener(new AbstractAction() {
+        gainQuantityButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(frame,"Want to add this item?")==JOptionPane.OK_OPTION) {
-
-                    synchronized (itemDetails) {
-                        itemDetails.name = nameTextField.getText();
-                        itemDetails.quantity = Integer.parseInt(quantityTextField.getText());
-                        itemDetails.setOperation(ItemDetails.ADD);
-
-                    }
-                    dispose();
+                synchronized (itemDetails){
+                    itemDetails.setTempQuantity(Integer.parseInt(quantityTextField.getText()));
+                    itemDetails.setOperation(ItemDetails.GAIN_QUANTITY);
                 }
+                dispose();
             }
         });
 

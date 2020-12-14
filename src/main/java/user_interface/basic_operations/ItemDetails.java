@@ -1,4 +1,4 @@
-package basic_operations;
+package user_interface.basic_operations;
 
 public class ItemDetails {
     public static final int NONE=0;
