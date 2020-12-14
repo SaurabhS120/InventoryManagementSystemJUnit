@@ -79,7 +79,7 @@ public class Inventory {
             preparedStatement.setString(1,name);
             ResultSet resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
-                boolean result= resultSet.getInt(1)>quantity;
+                boolean result= resultSet.getInt(1)>=quantity;
                 con.close();
                 return result;
             }
