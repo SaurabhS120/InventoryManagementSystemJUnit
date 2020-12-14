@@ -21,6 +21,7 @@ public class ItemOperations extends JFrame {
     JButton backButton;
 
     public ItemOperations(ItemDetails itemDetails,UpdateMsg updateMsg){
+        super("Item Details");
         frame=this;
         this.itemDetails=itemDetails;
         this.updateMsg=updateMsg;
@@ -101,7 +102,7 @@ public class ItemOperations extends JFrame {
         removeButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(frame,"Do you want to remove this item?")==JOptionPane.OK_OPTION) {
+                if(JOptionPane.showConfirmDialog(frame,"Do you want to remove this item?","Remove confirmation",JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION) {
                     synchronized (itemDetails) {
                         itemDetails.setOperation(ItemDetails.REMOVE);
                         itemDetails.notify();

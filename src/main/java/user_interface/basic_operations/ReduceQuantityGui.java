@@ -17,6 +17,7 @@ public class ReduceQuantityGui extends JFrame {
     JButton reduceQuantityButton;
     JTextField quantityTextField;
     public ReduceQuantityGui(ItemDetails itemDetails){
+        super("Reduce Quantity");
         this.itemDetails=itemDetails;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));

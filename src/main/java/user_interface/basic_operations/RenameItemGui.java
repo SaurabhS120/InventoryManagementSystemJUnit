@@ -17,6 +17,7 @@ public class RenameItemGui extends JFrame {
     JButton renameButton;
     JTextField nameTextField;
     public RenameItemGui(ItemDetails itemDetails){
+        super("Rename item");
         this.itemDetails=itemDetails;
         frame=this;
         itemNameLabel=new JLabel(this.itemDetails.name);
@@ -66,7 +67,7 @@ public class RenameItemGui extends JFrame {
         renameButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(frame,"Do you want to rename this item?")==JOptionPane.OK_OPTION) {
+                if(JOptionPane.showConfirmDialog(frame,"Do you want to rename this item?","Rename Confirmation",JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION) {
                     synchronized (itemDetails) {
                         itemDetails.setTempName(nameTextField.getText());
                         itemDetails.setOperation(ItemDetails.RENAME);

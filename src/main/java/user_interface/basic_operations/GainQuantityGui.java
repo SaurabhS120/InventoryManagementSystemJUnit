@@ -17,6 +17,7 @@ public class GainQuantityGui extends JFrame {
     JButton gainQuantityButton;
     JTextField quantityTextField;
     public GainQuantityGui(ItemDetails itemDetails){
+        super("Gain Quantity");
         this.itemDetails=itemDetails;
         itemNameLabel=new JLabel(this.itemDetails.name);
         quantityLabel=new JLabel(String.valueOf(this.itemDetails.quantity));

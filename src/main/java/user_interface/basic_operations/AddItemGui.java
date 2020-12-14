@@ -16,6 +16,7 @@ public class AddItemGui extends JFrame {
     JTextField nameTextField;
     JTextField quantityTextField;
     public AddItemGui(ItemDetails itemDetails){
+        super("Add item");
         this.itemDetails=itemDetails;
         frame=this;
         panel=new JPanel();
@@ -65,7 +66,7 @@ public class AddItemGui extends JFrame {
         addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(frame,"Want to add this item?")==JOptionPane.OK_OPTION) {
+                if(JOptionPane.showConfirmDialog(frame,"Want to add this item?","Confirm add",JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION) {
 
                     synchronized (itemDetails) {
                         itemDetails.name = nameTextField.getText();
