@@ -5,18 +5,8 @@ import org.junit.runner.notification.Failure;
 public class TestRunner {
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(
-                CreateConn.class,
-                AddItem.class,
-                DeleteItem.class,
-                IsExists.class,
-                IsItemAvailable.class,
-                CheckQuantity.class,
-                GainQuantity.class,
-                ReduceQuantity.class,
-                RenameItem.class,
-                GetUnavailableItems.class,
-                Backup.class,
-                Restore.class
+                InventoryOperationsTestSuite.class,
+                BackupRestoreTestSuite.class
         );
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
