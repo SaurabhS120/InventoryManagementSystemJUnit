@@ -1,5 +1,7 @@
 package database;
 
+import user_interface.basic_operations.ItemDetails;
+
 import java.sql.*;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -167,14 +169,20 @@ public class Inventory {
         return null;
 
     }
-    public static Vector<String> getAllItems(){
+    public static Vector<ItemDetails> getAllItems(){
         Connection connection=connect();
         try {
             Statement statement=connection.createStatement();
-            ResultSet resultSet=statement.executeQuery("SELECT name from inventory");
-            Vector<String> vector=new Vector();
+            ResultSet resultSet=statement.executeQuery("SELECT name,quantity from inventory");
+            Vector<ItemDetails> vector=new Vector();
+            String name;
+            int quantity;
+            ItemDetails itemDetails;
             while (resultSet.next()){
-                vector.add(resultSet.getString(1));
+                name=resultSet.getString(1);
+                quantity=resultSet.getInt(2);
+                itemDetails=new ItemDetails(name,quantity);
+                vector.add(itemDetails);
             }
             connection.close();
             return vector;

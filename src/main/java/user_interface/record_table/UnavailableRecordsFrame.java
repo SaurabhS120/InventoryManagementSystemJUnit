@@ -24,7 +24,7 @@ public class UnavailableRecordsFrame extends JFrame {
             data[i][0]=enumeration.nextElement();
         }
         table=new JTable(data,col_name);
-        add(table);
+        add(new JScrollPane(table));
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {

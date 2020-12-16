@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.Scanner;
 
 import database.*;
+import user_interface.basic_operations.ItemDetails;
 
 public class Main {
     final static String operations =
@@ -47,9 +48,12 @@ public class Main {
             switch (op) {
                 case SHOW_ALL_RECORDS:
                     System.out.println("Showing all records : ");
-                    Enumeration<String> items=Inventory.getAllItems().elements();
+                    Enumeration<ItemDetails> items=Inventory.getAllItems().elements();
+                    System.out.println("name\tquantity");
+                    ItemDetails itemDetails;
                     while (items.hasMoreElements()){
-                        System.out.println(items.nextElement());
+                        itemDetails=items.nextElement();
+                        System.out.println(itemDetails.name+"\t"+itemDetails.quantity);
                     }
                 case ADD_ITEM:
                     System.out.println("Adding item");
