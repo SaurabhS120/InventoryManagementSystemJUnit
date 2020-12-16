@@ -1,5 +1,6 @@
 package user_interface.basic_operations;
-
+import database.Inventory;
+import user_interface.basic_operations.exceptions.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -64,18 +65,46 @@ public class AddItemGui extends JFrame {
             }
         });
         addButton.addActionListener(new AbstractAction() {
+            String name;
+            String quantityText;
+            int quantity;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(frame,"Want to add this item?","Confirm add",JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION) {
+
 
                     synchronized (itemDetails) {
-                        itemDetails.name = nameTextField.getText();
-                        itemDetails.quantity = Integer.parseInt(quantityTextField.getText());
-                        itemDetails.setOperation(ItemDetails.ADD);
-
+                        try {
+                            name = nameTextField.getText();
+                            quantityText = quantityTextField.getText();
+                            if(name.length()==0)throw new BlankNameFieldException();
+                            if(quantityText.length()==0)throw new BlankQuantityFieldException();
+                            quantity = Integer.parseInt(quantityText);
+                            if(quantity<0)throw new NegativeValueException();
+                            if(Inventory.isExist(name))throw new ItemAlreadyExistsException();
+                            if (JOptionPane.showConfirmDialog(frame, "Want to add this item?", "Confirm add", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+                                itemDetails.name=name;
+                                itemDetails.quantity = quantity;
+                                itemDetails.setOperation(ItemDetails.ADD);
+                                dispose();
+                            }
+                        }
+                        catch (NumberFormatException numberFormatException){
+                            JOptionPane.showMessageDialog(frame,"Please enter numeric quantity","Quantity is not number",JOptionPane.ERROR_MESSAGE);
+                        }
+                        catch (NegativeValueException negativeValueException){
+                            JOptionPane.showMessageDialog(frame,"Quantity is negative please enter positive quantity","Negatice quantity",JOptionPane.ERROR_MESSAGE);
+                        }
+                        catch (BlankNameFieldException blankNameFieldException){
+                            JOptionPane.showMessageDialog(frame,"Please Enter item name","Blank item name",JOptionPane.ERROR_MESSAGE);
+                        }
+                        catch (BlankQuantityFieldException blankQuantityFieldException){
+                            JOptionPane.showMessageDialog(frame,"Please enter quantity of item","Blank quantity",JOptionPane.ERROR_MESSAGE);
+                        }
+                        catch (ItemAlreadyExistsException itemAlreadyExistsException){
+                            JOptionPane.showMessageDialog(frame,"Item is already exist in database","Already exists",JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-                    dispose();
-                }
             }
         });
 

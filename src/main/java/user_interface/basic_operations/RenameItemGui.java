@@ -1,5 +1,7 @@
 package user_interface.basic_operations;
 
+import user_interface.basic_operations.exceptions.BlankNameFieldException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -65,14 +67,22 @@ public class RenameItemGui extends JFrame {
             }
         });
         renameButton.addActionListener(new AbstractAction() {
+            String name;
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(frame,"Do you want to rename this item?","Rename Confirmation",JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION) {
+                try {
+                    name = nameTextField.getText();
+                    if (name.length() == 0) throw new BlankNameFieldException();
+
                     synchronized (itemDetails) {
-                        itemDetails.setTempName(nameTextField.getText());
-                        itemDetails.setOperation(ItemDetails.RENAME);
+                        if (JOptionPane.showConfirmDialog(frame, "Do you want to rename this item?", "Rename Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+                            itemDetails.setTempName(name);
+                            itemDetails.setOperation(ItemDetails.RENAME);
+                            dispose();
+                        }
                     }
-                    dispose();
+                }catch (BlankNameFieldException blankNameFieldException){
+                    JOptionPane.showMessageDialog(frame,"Please enter item name to rename","Blank item name",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

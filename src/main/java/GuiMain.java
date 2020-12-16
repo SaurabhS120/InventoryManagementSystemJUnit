@@ -12,42 +12,42 @@ import javax.swing.*;
 
 public class GuiMain {
     public static boolean start() {
-        SearchDetails searchDetails=new SearchDetails();
-        MainSearch search=new MainSearch(searchDetails);
+        SearchDetails searchDetails = new SearchDetails();
+        MainSearch search = new MainSearch(searchDetails);
         searchDetails.setState(SearchDetails.SEARCHING);
-        boolean found=false;
+        boolean found = false;
         synchronized (searchDetails) {
             while (!found) {
                 try {
                     searchDetails.wait();
-                    if(searchDetails.getState()==SearchDetails.ADD){
+                    if (searchDetails.getState() == SearchDetails.ADD) {
                         search.setEnabled(false);
-                        ItemDetails itemDetails=new ItemDetails();
+                        ItemDetails itemDetails = new ItemDetails();
                         new AddItemGui(itemDetails);
-                        synchronized (itemDetails){
+                        synchronized (itemDetails) {
                             itemDetails.wait();
-                            if(itemDetails.getOperation()==ItemDetails.ADD){
+                            if (itemDetails.getOperation() == ItemDetails.ADD) {
                                 new ItemRecord(itemDetails).add();
-                                System.out.println("Record "+itemDetails.name+" is added with quantity "+itemDetails.quantity);
+                                System.out.println("Record " + itemDetails.name + " is added with quantity " + itemDetails.quantity);
                             }
                             searchDetails.setState(SearchDetails.SEARCHING);
                         }
                         search.setEnabled(true);
                         search.setVisible(true);
                     }
-                    if(searchDetails.getState()==SearchDetails.BACKUP){
+                    if (searchDetails.getState() == SearchDetails.BACKUP) {
                         BackupRestore.backup();
-                        JOptionPane.showMessageDialog(search,"Backup Successful","Backup",JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(search, "Backup Successful", "Backup", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("Backup created");
                         searchDetails.setState(SearchDetails.SEARCHING);
                     }
-                    if(searchDetails.getState()==SearchDetails.RESTORE){
+                    if (searchDetails.getState() == SearchDetails.RESTORE) {
                         try {
                             BackupRestore.restore();
                             JOptionPane.showMessageDialog(search, "Restore Successful", "Restore", JOptionPane.INFORMATION_MESSAGE);
                             System.out.println("Data Restored");
                             searchDetails.setState(SearchDetails.SEARCHING);
-                        }catch (Exception exception){
+                        } catch (Exception exception) {
                             exception.printStackTrace();
                         }
                     }
@@ -60,14 +60,14 @@ public class GuiMain {
                 }
 
             }
-            if(found){
+            if (found) {
                 try {
                     searchDetails.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("GUI Main : "+searchDetails.getName()+" is found");
-                String name=searchDetails.getName();
+                System.out.println("GUI Main : " + searchDetails.getName() + " is found");
+                String name = searchDetails.getName();
                 showDetails(name);
                 return true;
 
@@ -75,57 +75,58 @@ public class GuiMain {
         }
         return false;
     }
-    public static void showDetails(String name){
 
-        int quantity=Inventory.getQuantity(name);
-        ItemDetails itemDetails=new ItemDetails(name,quantity);
+    public static void showDetails(String name) {
+
+        int quantity = Inventory.getQuantity(name);
+        ItemDetails itemDetails = new ItemDetails(name, quantity);
         System.out.println(itemDetails);
-        UpdateMsg updateMsg=new UpdateMsg();
-        new ItemOperations(itemDetails,updateMsg);
-        ItemRecord itemRecord=new ItemRecord(itemDetails);
-        synchronized (itemDetails){
-            while (itemDetails.getOperation()!=ItemDetails.BACK){
+        UpdateMsg updateMsg = new UpdateMsg();
+        new ItemOperations(itemDetails, updateMsg);
+        ItemRecord itemRecord = new ItemRecord(itemDetails);
+        synchronized (itemDetails) {
+            while (itemDetails.getOperation() != ItemDetails.BACK) {
                 try {
                     itemDetails.wait();
-                    switch (itemDetails.getOperation()){
+                    switch (itemDetails.getOperation()) {
                         case ItemDetails.NONE:
-                            synchronized (updateMsg){
+                            synchronized (updateMsg) {
                                 updateMsg.notify();
                             }
                             break;
                         case ItemDetails.GAIN_QUANTITY:
                             itemRecord.gainQuantity(itemDetails.getTempQuantity());
-                            System.out.println("Quantity of item "+itemDetails.name+" is gained by "+itemDetails.getTempQuantity());
-                            System.out.println("new quantity : "+itemRecord.quantity);
-                            synchronized (updateMsg){
-                                updateMsg.quantity=Inventory.getQuantity(name);
-                                updateMsg.isQuantityUpdated=true;
+                            System.out.println("Quantity of item " + itemDetails.name + " is gained by " + itemDetails.getTempQuantity());
+                            System.out.println("new quantity : " + itemRecord.quantity);
+                            synchronized (updateMsg) {
+                                updateMsg.quantity = Inventory.getQuantity(name);
+                                updateMsg.isQuantityUpdated = true;
                                 updateMsg.notify();
                             }
                             break;
                         case ItemDetails.REDUCE_QUANTITY:
                             itemRecord.reduceQuantity(itemDetails.getTempQuantity());
-                            System.out.println("Quantity of item "+itemDetails.name+" is reduced by "+itemDetails.getTempQuantity());
-                            System.out.println("new quantity : "+itemRecord.quantity);
-                            synchronized (updateMsg){
-                                updateMsg.quantity=Inventory.getQuantity(name);
-                                updateMsg.isQuantityUpdated=true;
+                            System.out.println("Quantity of item " + itemDetails.name + " is reduced by " + itemDetails.getTempQuantity());
+                            System.out.println("new quantity : " + itemRecord.quantity);
+                            synchronized (updateMsg) {
+                                updateMsg.quantity = Inventory.getQuantity(name);
+                                updateMsg.isQuantityUpdated = true;
                                 updateMsg.notify();
                             }
                             break;
-                            case ItemDetails.RENAME:
-                                itemRecord.rename(itemDetails.getTempName());
-                                System.out.println("Item "+itemDetails.name+" renamed to "+itemDetails.getTempName());
-                                name=itemRecord.name;
-                                synchronized (updateMsg){
-                                    updateMsg.name=name;
-                                    updateMsg.isNameUpdated=true;
-                                    updateMsg.notify();
-                                }
-                                break;
+                        case ItemDetails.RENAME:
+                            itemRecord.rename(itemDetails.getTempName());
+                            System.out.println("Item " + itemDetails.name + " renamed to " + itemDetails.getTempName());
+                            name = itemRecord.name;
+                            synchronized (updateMsg) {
+                                updateMsg.name = name;
+                                updateMsg.isNameUpdated = true;
+                                updateMsg.notify();
+                            }
+                            break;
                         case ItemDetails.REMOVE:
                             itemRecord.remove();
-                            System.out.println("Item "+itemDetails.name+" is removed");
+                            System.out.println("Item " + itemDetails.name + " is removed");
                             return;
 
                     }
@@ -137,6 +138,6 @@ public class GuiMain {
     }
 
     public static void main(String[] args) {
-        while (start());
+        while (start()) ;
     }
 }
