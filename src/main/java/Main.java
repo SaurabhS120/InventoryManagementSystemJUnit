@@ -55,6 +55,7 @@ public class Main {
                         itemDetails=items.nextElement();
                         System.out.println(itemDetails.name+"\t"+itemDetails.quantity);
                     }
+                    break;
                 case ADD_ITEM:
                     System.out.println("Adding item");
                     System.out.println("Enter item name : ");
