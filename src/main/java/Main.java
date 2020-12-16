@@ -3,34 +3,38 @@ import database.Inventory;
 
 import java.util.Enumeration;
 import java.util.Scanner;
+
 import database.*;
+
 public class Main {
     final static String operations =
-            "1.Add Item\n" +
-                    "2.Remove Item\n" +
-                    "3.Check item exists in rec\n" +
-                    "4.Check item quantity\n" +
-                    "5.Gain item quantity\n" +
-                    "6.Reduce item quantity\n" +
-                    "7.Check item quantity available or not\n" +
-                    "8.Rename item\n" +
-                    "9.Get unavailable items\n" +
-                    "10.Create backup\n" +
-                    "11.Restore backup\n" +
-                    "12.Exit\n";
+            "1.Show all records\n" +
+                    "2.Add Item\n" +
+                    "3.Remove Item\n" +
+                    "4.Check item exists in rec\n" +
+                    "5.Check item quantity\n" +
+                    "6.Gain item quantity\n" +
+                    "7.Reduce item quantity\n" +
+                    "8.Check item quantity available or not\n" +
+                    "9.Rename item\n" +
+                    "10.Get unavailable items\n" +
+                    "11.Create backup\n" +
+                    "12.Restore backup\n" +
+                    "13.Exit\n";
 
-    final static int ADD_ITEM = 1;
-    final static int REMOVE_ITEM = 2;
-    final static int IF_EXISTS = 3;
-    final static int CHECK_QUANTITY = 4;
-    final static int GAIN_QUANTITY = 5;
-    final static int REDUCE_QUANTITY = 6;
-    final static int IS_ITEM_AVAILABLE = 7;
-    final static int RENAME_ITEM = 8;
-    final static int GET_UNAVAILABLE_ITEMS=9;
-    final static int BACKUP = 10;
-    final static int RESTORE = 11;
-    final static int EXIT = 12;
+    final static int SHOW_ALL_RECORDS = 1;
+    final static int ADD_ITEM = 2;
+    final static int REMOVE_ITEM = 3;
+    final static int IF_EXISTS = 4;
+    final static int CHECK_QUANTITY = 5;
+    final static int GAIN_QUANTITY = 6;
+    final static int REDUCE_QUANTITY = 7;
+    final static int IS_ITEM_AVAILABLE = 8;
+    final static int RENAME_ITEM = 9;
+    final static int GET_UNAVAILABLE_ITEMS = 10;
+    final static int BACKUP = 11;
+    final static int RESTORE = 12;
+    final static int EXIT = 13;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -41,6 +45,12 @@ public class Main {
             String newName;
             int quantity;
             switch (op) {
+                case SHOW_ALL_RECORDS:
+                    System.out.println("Showing all records : ");
+                    Enumeration<String> items=Inventory.getAllItems().elements();
+                    while (items.hasMoreElements()){
+                        System.out.println(items.nextElement());
+                    }
                 case ADD_ITEM:
                     System.out.println("Adding item");
                     System.out.println("Enter item name : ");
@@ -97,16 +107,16 @@ public class Main {
                 case RENAME_ITEM:
                     System.out.println("Renaming item");
                     System.out.println("Enter item name : ");
-                    item_name=sc.next();
+                    item_name = sc.next();
                     System.out.println("Enter item new name : ");
-                    newName=sc.next();
-                    Inventory.renameItem(item_name,newName);
+                    newName = sc.next();
+                    Inventory.renameItem(item_name, newName);
                     break;
                 case GET_UNAVAILABLE_ITEMS:
                     System.out.println("Getting unavailable items : ");
-                    Enumeration enumeration=Inventory.getUnavailableItems().elements();
+                    Enumeration enumeration = Inventory.getUnavailableItems().elements();
                     System.out.println("Items");
-                    while (enumeration.hasMoreElements()){
+                    while (enumeration.hasMoreElements()) {
                         System.out.println(enumeration.nextElement());
                     }
                     break;
