@@ -17,6 +17,8 @@ public class MainSearch extends JFrame {
     JTextField nameTextField;
     JButton searchButton;
     JButton addButton;
+    JButton showAllRecordsButton;
+    JButton showUnavailableRecordsButton;
     JButton backupButton;
     JButton restoreButton;
     public MainSearch(SearchDetails searchDetails){
@@ -37,6 +39,12 @@ public class MainSearch extends JFrame {
         addButton=new JButton("Add");
         addButton.setMaximumSize(new Dimension(350,30));
         panel.add(addButton);
+        showAllRecordsButton=new JButton("Show all records");
+        showAllRecordsButton.setMaximumSize(new Dimension(350,30));
+        panel.add(showAllRecordsButton);
+        showUnavailableRecordsButton=new JButton("Show unavailable records");
+        showUnavailableRecordsButton.setMaximumSize(new Dimension(350,30));
+        panel.add(showUnavailableRecordsButton);
         backupButton=new JButton("Backup");
         backupButton.setMaximumSize(new Dimension(350,30));
         panel.add(backupButton);
@@ -109,6 +117,24 @@ public class MainSearch extends JFrame {
                     }
                 }else {
                     JOptionPane.showMessageDialog(frame,"Backup file not found,\nPlease create backup before restore","Backup file not found",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        showAllRecordsButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (searchDetails){
+                    searchDetails.setState(SearchDetails.SHOW_ALL_RECORDS);
+                    searchDetails.notify();
+                }
+            }
+        });
+        showUnavailableRecordsButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (searchDetails){
+                    searchDetails.setState(SearchDetails.SHOW_UNAVAILABLE_RECORDS);
+                    searchDetails.notify();
                 }
             }
         });

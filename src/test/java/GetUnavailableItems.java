@@ -21,7 +21,7 @@ public class GetUnavailableItems {
     }
     @Test
     public void gainQuantity(){
-        Enumeration<String> enumeration= Inventory.getUnavailableItems();
+        Enumeration<String> enumeration= Inventory.getUnavailableItems().elements();
         while (enumeration.hasMoreElements()){
             String s=enumeration.nextElement();
             Assert.assertTrue(expected(s));

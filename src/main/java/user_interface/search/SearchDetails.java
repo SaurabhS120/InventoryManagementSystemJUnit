@@ -8,6 +8,8 @@ public class SearchDetails {
     public static final int ADD=4;
     public static final int BACKUP=5;
     public static final int RESTORE=6;
+    public static final int SHOW_ALL_RECORDS=7;
+    public static final int SHOW_UNAVAILABLE_RECORDS=8;
 
     String name;
 

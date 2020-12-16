@@ -150,7 +150,7 @@ public class Inventory {
             throwables.printStackTrace();
         }
     }
-    public static Enumeration<String> getUnavailableItems(){
+    public static Vector<String> getUnavailableItems(){
         Connection connection=connect();
         try {
             Statement statement=connection.createStatement();
@@ -159,9 +159,25 @@ public class Inventory {
             while (resultSet.next()){
                 vector.add(resultSet.getString(1));
             }
-            Enumeration enumeration=vector.elements();
             connection.close();
-            return enumeration;
+            return vector;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+
+    }
+    public static Vector<String> getAllItems(){
+        Connection connection=connect();
+        try {
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery("SELECT name from inventory");
+            Vector<String> vector=new Vector();
+            while (resultSet.next()){
+                vector.add(resultSet.getString(1));
+            }
+            connection.close();
+            return vector;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

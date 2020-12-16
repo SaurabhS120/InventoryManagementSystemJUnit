@@ -1,6 +1,8 @@
 import user_interface.basic_operations.AddItemGui;
 import database.Inventory;
 import database.ItemRecord;
+import user_interface.record_table.AllRecordsFrame;
+import user_interface.record_table.UnavailableRecordsFrame;
 import user_interface.search.MainSearch;
 import user_interface.search.SearchDetails;
 import user_interface.basic_operations.ItemDetails;
@@ -49,6 +51,18 @@ public class GuiMain {
                             searchDetails.setState(SearchDetails.SEARCHING);
                         } catch (Exception exception) {
                             exception.printStackTrace();
+                        }
+                    }
+                    if(searchDetails.getState()==SearchDetails.SHOW_ALL_RECORDS){
+                        new AllRecordsFrame(searchDetails);
+                        synchronized (searchDetails){
+                            searchDetails.wait();
+                        }
+                    }
+                    if(searchDetails.getState()==SearchDetails.SHOW_UNAVAILABLE_RECORDS){
+                        new UnavailableRecordsFrame(searchDetails);
+                        synchronized (searchDetails){
+                            searchDetails.wait();
                         }
                     }
                     if (searchDetails.getState() == SearchDetails.CLOSED) break;

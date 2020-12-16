@@ -104,7 +104,7 @@ public class Main {
                     break;
                 case GET_UNAVAILABLE_ITEMS:
                     System.out.println("Getting unavailable items : ");
-                    Enumeration enumeration=Inventory.getUnavailableItems();
+                    Enumeration enumeration=Inventory.getUnavailableItems().elements();
                     System.out.println("Items");
                     while (enumeration.hasMoreElements()){
                         System.out.println(enumeration.nextElement());
